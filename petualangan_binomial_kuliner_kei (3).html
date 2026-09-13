@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Binomial Kuliner Kei - Matematika Lanjut XII</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for Binomial Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- KaTeX for LaTeX Math Formatting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <!-- Font Family -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        kei: {
+                            navy: '#0b1728',
+                            slate: '#0f223a',
+                            border: '#1e385c',
+                            gold: '#fbbf24',
+                            amber: '#f59e0b',
+                            cyan: '#06b6d4',
+                            sky: '#0284c7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #070f1e;
+            color: #f1f5f9;
+        }
+        .header-bg {
+            background: linear-gradient(180deg, #0f233f 0%, #081326 100%);
+            border-bottom: 1px solid #1e3a60;
+        }
+        .nav-tab-active {
+            background-color: rgba(6, 182, 212, 0.15);
+            color: #38bdf8;
+            border-bottom: 3px solid #06b6d4;
+        }
+        .nav-tab-inactive {
+            color: #94a3b8;
+            border-bottom: 3px solid transparent;
+        }
+        .nav-tab-inactive:hover {
+            color: #e2e8f0;
+            background-color: rgba(255, 255, 255, 0.04);
+        }
+        .glass-card {
+            background: rgba(15, 34, 58, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1e3a60;
+            border-radius: 4px;
+        }
+        .gold-glow {
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.25);
+        }
+        .cyan-glow {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-slate-900">
+
+    <!-- HALAMAN AWAL / COVER INPUT SISWA & DETAIL PENGEMBANG -->
+    <div id="welcomeScreen" class="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="max-w-2xl w-full glass-card p-6 md:p-8 rounded-3xl border-2 border-cyan-500/50 shadow-2xl space-y-6 my-auto">
+            
+            <!-- Banner Logo & Header Info -->
+            <div class="text-center space-y-3">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 text-4xl shadow-xl ring-4 ring-cyan-400/30 mb-1">
+                    🌴
+                </div>
+                <div>
+                    <span class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Media Pembelajaran Interaktif Matematika Lanjut
+                    </span>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight mt-2">
+                        Petualangan Binomial <span class="text-amber-400 drop-shadow">Kuliner Kei</span>
+                    </h1>
+                </div>
+
+                <!-- Detail Pengembang & Materi Badge Box -->
+                <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-4 text-xs space-y-2 text-slate-300 max-w-xl mx-auto text-left">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="text-slate-400 font-medium">📚 Materi Pembelajaran:</span>
+                        <span class="font-bold text-cyan-300 text-right">Analisis Data dan Peluang — Distribusi Binomial</span>
+                    </div>
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="text-slate-400 font-medium">🎓 Tingkat Sekolah:</span>
+                        <span class="font-bold text-emerald-400">Kelas XII SMA (Kurikulum Merdeka)</span>
+                    </div>
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="text-slate-400 font-medium">🏝️ Konteks Etnomatematika:</span>
+                        <span class="font-bold text-amber-300">Kuliner Tradisional Kepulauan Kei, Maluku Tenggara</span>
+                    </div>
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="text-amber-400 font-bold flex items-center gap-1">
+                            <span>👨‍🏫</span> Pengembang Media:
+                        </span>
+                        <span class="bg-amber-500/20 text-amber-200 border border-amber-500/40 px-2.5 py-1 rounded-lg font-bold text-xs">
+                            Hilda Widia Rita Hamid, S.Pd.Gr.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Identity Input Form -->
+            <form onsubmit="startAppWithStudentInfo(event)" class="bg-slate-900/80 p-5 rounded-2xl border border-cyan-500/30 space-y-4">
+                <div class="text-xs font-bold text-cyan-300 uppercase tracking-wider flex items-center space-x-2">
+                    <span>👤</span>
+                    <span>Masukkan Identitas Siswa Untuk Memulai:</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="welcomeInputName" class="block text-xs font-semibold text-slate-300 mb-1">
+                            Nama Lengkap Siswa <span class="text-rose-400">*</span>
+                        </label>
+                        <input type="text" id="welcomeInputName" required placeholder="Contoh: Zhang Linghe"
+                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition">
+                    </div>
+
+                    <div>
+                        <label for="welcomeInputClass" class="block text-xs font-semibold text-slate-300 mb-1">
+                            Kelas / Kelompok Belajar <span class="text-rose-400">*</span>
+                        </label>
+                        <input type="text" id="welcomeInputClass" required placeholder="Contoh: XII IPA 1" value="XII"
+                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition">
+                    </div>
+                </div>
+
+                <button type="submit" 
+                    class="w-full bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-extrabold py-3.5 px-6 rounded-xl text-xs md:text-sm transition transform active:scale-95 shadow-lg flex items-center justify-center space-x-2">
+                    <span>🚀 Mulai Petualangan Belajar Binomial Kei</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </form>
+
+            <p class="text-[11px] text-center text-slate-400">
+                💡 Disusun khusus untuk pembelajaran Matematika Lanjut Kelas XII SMA di Kepulauan Kei, Maluku Tenggara.
+            </p>
+
+        </div>
+    </div>
+
+    <!-- TOP HEADER NAVBAR (EXACT UI MATCH FROM USER IMAGE) -->
+    <header class="header-bg sticky top-0 z-50 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex flex-wrap lg:flex-nowrap justify-between items-center gap-4">
+                
+                <!-- Left Brand & Developer Badge -->
+                <div class="flex items-center space-x-3.5">
+                    <!-- Island Icon Box -->
+                    <button onclick="openWelcomeScreen()" title="Kembali ke Halaman Sampul" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 flex items-center justify-center text-2xl shadow-lg ring-2 ring-cyan-400/30 hover:scale-105 transition">
+                        🌴
+                    </button>
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-extrabold tracking-tight text-white leading-none">
+                            Petualangan Binomial <span class="text-amber-400 drop-shadow">Kuliner Kei</span>
+                        </h1>
+                        <p class="text-xs text-slate-300 font-medium mt-1">
+                            Matematika Lanjut Kelas XII SMA • Kepulauan Kei, Maluku Tenggara
+                        </p>
+                        <div class="mt-1 inline-flex items-center space-x-1.5 bg-amber-950/60 border border-amber-500/40 px-2.5 py-0.5 rounded-md text-[11px] font-semibold text-amber-300">
+                            <span>👨‍🏫 Pengembang:</span>
+                            <span class="bg-amber-500/20 px-1.5 py-0.2 rounded text-amber-200">Hilda Widia Rita Hamid, S.Pd.Gr</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Student Pill & Game Status Pill -->
+                <div class="flex flex-wrap items-center gap-3 ml-auto">
+                    
+                    <!-- Student Badge Pill -->
+                    <div class="flex items-center space-x-2 bg-slate-900/80 border border-slate-700/80 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-inner">
+                        <span class="text-cyan-400 text-sm">👤</span>
+                        <span id="headerStudentName" class="text-white max-w-[120px] truncate">Siswa</span>
+                        <span class="text-slate-500">•</span>
+                        <span id="headerStudentClass" class="text-amber-400">XII</span>
+                        <button onclick="openWelcomeScreen()" class="ml-1 text-[11px] text-cyan-400 hover:text-cyan-300 underline font-normal">
+                            Ubah
+                        </button>
+                    </div>
+
+                    <!-- Game Stats Pill (Score, Level, Sound Toggle) -->
+                    <div class="flex items-center space-x-3 bg-slate-900/90 border border-cyan-500/30 px-4 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                        <div class="flex items-center space-x-1.5 text-amber-400">
+                            <span>⭐</span>
+                            <span class="text-slate-400">Skor:</span>
+                            <span id="headerScore" class="text-amber-300 text-sm font-extrabold">0</span>
+                        </div>
+                        <span class="text-slate-600">|</span>
+                        <div class="flex items-center space-x-1.5 text-cyan-400">
+                            <span>🏆</span>
+                            <span class="text-slate-400">Level:</span>
+                            <span id="headerLevel" class="text-cyan-300 text-sm font-extrabold">1</span>
+                        </div>
+                        <span class="text-slate-600">|</span>
+                        <button onclick="toggleAudio()" id="btnAudioToggle" class="flex items-center space-x-1 text-slate-300 hover:text-white transition">
+                            <span id="audioIcon">🔊</span>
+                            <span id="audioText" class="text-[11px] text-slate-300">Suara: ON</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- MAIN NAVIGATION TABS BAR -->
+        <div class="bg-slate-950/70 border-t border-slate-800/80 px-4">
+            <div class="max-w-7xl mx-auto flex space-x-1 md:space-x-4 overflow-x-auto custom-scrollbar">
+                <button onclick="switchTab('lab')" id="navTabLab" class="nav-tab-active py-3 px-4 md:px-5 text-xs md:text-sm font-bold flex items-center space-x-2 whitespace-nowrap transition">
+                    <span>🧪</span>
+                    <span>Lab Eksperimen Enbal</span>
+                </button>
+                <button onclick="switchTab('game')" id="navTabGame" class="nav-tab-inactive py-3 px-4 md:px-5 text-xs md:text-sm font-bold flex items-center space-x-2 whitespace-nowrap transition opacity-60">
+                    <span>🎮</span>
+                    <span>Petualangan Koki Kei (Game)</span>
+                    <span id="lockIconGame" class="text-amber-400 text-xs ml-1">🔒</span>
+                </button>
+                <button onclick="switchTab('calc')" id="navTabCalc" class="nav-tab-inactive py-3 px-4 md:px-5 text-xs md:text-sm font-bold flex items-center space-x-2 whitespace-nowrap transition opacity-60">
+                    <span>🧮</span>
+                    <span>Kalkulator & Analisis Binomial</span>
+                    <span id="lockIconCalc" class="text-amber-400 text-xs ml-1">🔒</span>
+                </button>
+                <button onclick="switchTab('module')" id="navTabModule" class="nav-tab-inactive py-3 px-4 md:px-5 text-xs md:text-sm font-bold flex items-center space-x-2 whitespace-nowrap transition">
+                    <span>📚</span>
+                    <span>Modul Rumus & Budaya Kei</span>
+                </button>
+                <button onclick="switchTab('reflection')" id="navTabReflection" class="nav-tab-inactive py-3 px-4 md:px-5 text-xs md:text-sm font-bold flex items-center space-x-2 whitespace-nowrap transition opacity-60">
+                    <span>📝</span>
+                    <span>Refleksi & Laporan Siswa</span>
+                    <span id="lockIconRef" class="text-amber-400 text-xs ml-1">🔒</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto w-full px-4 py-6 flex-grow">
+
+        <!-- TAB 1: LAB EKSPERIMEN ENBAL (INTERACTIVE SIMULATOR & COOKING TEST) -->
+        <section id="tabLab" class="block space-y-6">
+            <div class="glass-card p-6 rounded-3xl space-y-3 border-l-4 border-l-cyan-500">
+                <div class="flex justify-between items-start flex-wrap gap-2">
+                    <div>
+                        <span class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Langkah 1: Simulasi Visual & Memasak Enbal
+                        </span>
+                        <h2 class="text-xl md:text-2xl font-extrabold text-white mt-2">
+                            Laboratorium Eksperimen Enbal Evav
+                        </h2>
+                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed mt-1">
+                            Atur parameter adonan singkong Enbal ($n$, $p$, $k$), lalu klik tombol <strong>"🔥 Goreng & Uji Batch Enbal"</strong> untuk melihat proses pematangan dan membuka akses ke menu tantangan game!
+                        </p>
+                    </div>
+                    <div id="labStatusBadge" class="bg-amber-500/20 border border-amber-500/40 p-3 rounded-2xl text-xs text-amber-300 flex items-center space-x-2">
+                        <span class="text-lg">🔒</span>
+                        <div>
+                            <strong class="block text-amber-200">Status Akses: Terkunci</strong>
+                            <span>Lakukan 1x uji memasak Enbal untuk membuka Game.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls & Live Histogram Chart -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Controls Panel -->
+                <div class="lg:col-span-5 glass-card p-6 rounded-3xl space-y-5">
+                    <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center text-xl font-bold">
+                            🫓
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-sm">Parameter Percobaan Enbal</h3>
+                            <p class="text-[11px] text-slate-400">Pengujian Kualitas Adonan Cassava Kei</p>
+                        </div>
+                    </div>
+
+                    <!-- Sliders -->
+                    <div class="space-y-4">
+                        <!-- Slider n -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Banyak Batch Sampel ($n$)</span>
+                                <span id="labValN" class="text-cyan-400 font-extrabold text-sm">5</span>
+                            </div>
+                            <input type="range" id="labSliderN" min="1" max="15" value="5" oninput="updateLabSim()" class="w-full accent-cyan-500 cursor-pointer">
+                            <div class="flex justify-between text-[10px] text-slate-500"><span>1 batch</span><span>15 batch</span></div>
+                        </div>
+
+                        <!-- Slider p -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Peluang Enbal Renyah Sempurna ($p$)</span>
+                                <span id="labValP" class="text-amber-400 font-extrabold text-sm">0.75</span>
+                            </div>
+                            <input type="range" id="labSliderP" min="0.10" max="0.95" step="0.05" value="0.75" oninput="updateLabSim()" class="w-full accent-amber-500 cursor-pointer">
+                            <div class="flex justify-between text-[10px] text-slate-500"><span>10%</span><span>95%</span></div>
+                        </div>
+
+                        <!-- Slider k -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">Target Jumlah Enbal Sukses ($k$)</span>
+                                <span id="labValK" class="text-emerald-400 font-extrabold text-sm">4</span>
+                            </div>
+                            <input type="range" id="labSliderK" min="0" max="5" value="4" oninput="updateLabSim()" class="w-full accent-emerald-500 cursor-pointer">
+                            <div class="flex justify-between text-[10px] text-slate-500"><span>0 batch</span><span id="labMaxKLabel">5 batch</span></div>
+                        </div>
+                    </div>
+
+                    <!-- COOKING ACTION BUTTON -->
+                    <button onclick="runEnbalCookingSim()" id="btnRunCookSim" 
+                        class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-extrabold py-3.5 px-4 rounded-2xl text-xs md:text-sm transition transform active:scale-95 flex items-center justify-center space-x-2 shadow-xl ring-2 ring-amber-400/30">
+                        <span>🔥 Goreng & Uji Batch Enbal Sekarang!</span>
+                    </button>
+
+                    <!-- Results Table Box -->
+                    <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs">
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400">Kombinasi $\binom{n}{k}$:</span>
+                            <span id="labResComb" class="font-bold text-white">5</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400">Peluang Tepat $P(X = k)$:</span>
+                            <span id="labResProb" class="font-extrabold text-cyan-400 text-sm">0.3955 (39.55%)</span>
+                        </div>
+                        <div class="border-t border-slate-800 pt-2 flex justify-between items-center">
+                            <span class="text-slate-400">Rata-rata ($\mu = n \cdot p$):</span>
+                            <span id="labResMean" class="font-bold text-amber-400">3.75 batch</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400">Varians ($\sigma^2 = n \cdot p \cdot q$):</span>
+                            <span id="labResVar" class="font-bold text-emerald-400">0.9375</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400">Simpangan Baku ($\sigma$):</span>
+                            <span id="labResSd" class="font-bold text-emerald-400">0.968</span>
+                        </div>
+                    </div>
+
+                    <button onclick="proceedToGameTab()" id="btnProceedToGame" disabled
+                        class="w-full bg-slate-800 text-slate-500 font-extrabold py-3 px-4 rounded-xl text-xs transition cursor-not-allowed flex items-center justify-center space-x-2">
+                        <span>🎮 Lanjut ke Game Tantangan Koki Kei</span>
+                        <span id="btnProceedLockIcon">🔒</span>
+                    </button>
+                </div>
+
+                <!-- Right Side: Live Visual Tray & Histogram -->
+                <div class="lg:col-span-7 space-y-6">
+                    
+                    <div class="glass-card p-6 rounded-3xl border border-amber-500/30 space-y-4 relative overflow-hidden">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                            <h3 class="font-bold text-white text-sm flex items-center space-x-2">
+                                <span>🍳 Nampan Hasil Memasak Enbal Stik Evav</span>
+                            </h3>
+                            <span id="cookingStatusTag" class="text-[11px] bg-slate-800 text-slate-400 font-semibold px-2.5 py-1 rounded-full border border-slate-700">
+                                Siap Digoreng
+                            </span>
+                        </div>
+
+                        <!-- Tray Items Display -->
+                        <div id="enbalTrayGrid" class="grid grid-cols-3 sm:grid-cols-5 gap-3 min-h-[110px] items-center p-3 bg-slate-950/80 rounded-2xl border border-slate-800">
+                            <!-- Injected dynamically via JS -->
+                        </div>
+
+                        <div id="cookingSummaryBox" class="hidden bg-slate-900/90 border border-slate-700/80 p-3 rounded-2xl text-xs space-y-1">
+                            <!-- Injected after cooking -->
+                        </div>
+                    </div>
+
+                    <!-- Live Chart Histogram -->
+                    <div class="glass-card p-6 rounded-3xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-bold text-white text-sm flex items-center space-x-2">
+                                    <span>📊 Histogram Distribusi Probabilitas Binomial</span>
+                                </h3>
+                                <span class="text-[11px] bg-cyan-500/20 text-cyan-300 font-semibold px-2.5 py-1 rounded-full border border-cyan-500/30">
+                                    Visualisasi Live
+                                </span>
+                            </div>
+                            <div class="relative w-full h-56 md:h-64">
+                                <canvas id="labChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-[11px] text-slate-300 flex items-start space-x-2">
+                            <span class="text-amber-400 text-base">💡</span>
+                            <span>
+                                Batang berwarna <strong>Biru Cyan</strong> menyoroti target kejadian $X = $ <span id="labHighlightKText" class="text-cyan-400 font-bold">4</span>. Tinggi batang menggambarkan nilai peluang probabilitas matematisnya.
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- TAB 2: PETUALANGAN KOKI KEI (GAMIFIED QUIZ - 15 LEVELS) -->
+        <section id="tabGame" class="hidden space-y-6">
+            
+            <!-- Game Status Bar -->
+            <div class="glass-card p-4 rounded-2xl flex flex-wrap justify-between items-center gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl font-bold border border-amber-500/30">
+                        🏝️
+                    </div>
+                    <div>
+                        <div class="text-[11px] text-slate-400 font-medium">Misi Kuliner Kei</div>
+                        <div id="gameLevelTitle" class="text-sm md:text-base font-extrabold text-white">
+                            Level 1: Kerenyahan Enbal Stik Evav
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Pill -->
+                <div class="flex items-center space-x-6">
+                    <div class="text-right">
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Kemajuan Misi</div>
+                        <div class="text-xs font-extrabold text-cyan-400"><span id="gameCurrentLevelNum">1</span> / 15 Soal</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Skor Kamu</div>
+                        <div id="gameCurrentScore" class="text-lg font-extrabold text-amber-400">0 Poin</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Main Card -->
+            <div class="glass-card p-6 md:p-8 rounded-3xl space-y-6 border border-slate-700/80">
+                
+                <!-- Question Title & Culinary Scenario -->
+                <div class="space-y-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span id="gameCategoryBadge" class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[11px] font-bold px-3 py-1 rounded-full">
+                            Kejadian Tepat P(X = k)
+                        </span>
+                        <span id="gamePointsBadge" class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold px-3 py-1 rounded-full">
+                            +20 Poin
+                        </span>
+                    </div>
+
+                    <h3 id="gameQuestionText" class="text-lg md:text-xl font-bold text-white leading-snug">
+                        <!-- Question text dynamically injected -->
+                    </h3>
+
+                    <!-- Culinary Context Story Box -->
+                    <div id="gameCulinaryContext" class="bg-amber-950/30 border-l-4 border-amber-500 p-4 rounded-r-2xl text-xs md:text-sm text-amber-200 leading-relaxed">
+                        <!-- Context story dynamically injected -->
+                    </div>
+                </div>
+
+                <!-- Options Grid -->
+                <div id="gameOptionsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                    <!-- Options injected dynamically -->
+                </div>
+
+                <!-- Explanation & Feedback Box -->
+                <div id="gameFeedbackBox" class="hidden p-4 rounded-2xl border text-xs md:text-sm space-y-2">
+                    <div id="gameFeedbackTitle" class="font-bold flex items-center space-x-2"></div>
+                    <div id="gameFeedbackText" class="text-slate-200 leading-relaxed"></div>
+                </div>
+
+                <!-- Action Bar (Hint & Next) -->
+                <div class="flex justify-between items-center border-t border-slate-800 pt-4">
+                    <button onclick="toggleGameHint()" class="text-xs text-cyan-400 hover:text-cyan-300 font-semibold flex items-center space-x-1 transition">
+                        <span>💡 Butuh Petunjuk Rumus?</span>
+                    </button>
+
+                    <button id="btnNextGame" onclick="nextGameQuestion()" disabled
+                        class="bg-slate-800 text-slate-500 font-bold py-2.5 px-6 rounded-xl text-xs transition cursor-not-allowed">
+                        Lanjut ke Soal Berikutnya
+                    </button>
+                </div>
+
+                <!-- Hint Drawer -->
+                <div id="gameHintBox" class="hidden bg-cyan-950/50 border border-cyan-500/30 p-4 rounded-2xl text-xs text-cyan-200 space-y-1">
+                    <div class="font-bold text-cyan-300">💡 Petunjuk Penyelesaian:</div>
+                    <div id="gameHintText">Gunakan rumus $P(X=k) = \binom{n}{k} \cdot p^k \cdot (1-p)^{n-k}$.</div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- TAB 3: KALKULATOR & ANALISIS BINOMIAL -->
+        <section id="tabCalc" class="hidden space-y-6">
+            
+            <div class="glass-card p-6 rounded-3xl space-y-2 border-l-4 border-l-amber-500">
+                <h2 class="text-xl md:text-2xl font-extrabold text-white flex items-center space-x-2">
+                    <span>🧮 Kalkulator & Analisis Otomatis Binomial</span>
+                </h2>
+                <p class="text-xs md:text-sm text-slate-300">
+                    Hitung probabilitas binomial instan untuk pengerjaan soal latihan mandiri lengkap dengan penjabaran langkah demi langkah.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Inputs -->
+                <div class="lg:col-span-5 glass-card p-6 rounded-3xl space-y-4">
+                    <h3 class="font-bold text-amber-400 text-sm border-b border-slate-800 pb-2">
+                        Input Parameter Soal Binomial
+                    </h3>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Banyak Percobaan ($n$)</label>
+                        <input type="number" id="calcInputN" value="10" min="1" max="100" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Peluang Sukses ($p$)</label>
+                        <input type="number" id="calcInputP" value="0.6" step="0.01" min="0" max="1" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Target Kejadian Sukses ($k$)</label>
+                        <input type="number" id="calcInputK" value="6" min="0" max="100" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500">
+                    </div>
+
+                    <button onclick="calculateBinomialTool()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-4 rounded-xl text-xs transition shadow-lg active:scale-95">
+                        ⚡ Hitung Probabilitas & Analisis
+                    </button>
+                </div>
+
+                <!-- Step-by-Step Breakdown Output -->
+                <div class="lg:col-span-7 glass-card p-6 rounded-3xl space-y-4">
+                    <h3 class="font-bold text-cyan-400 text-sm border-b border-slate-800 pb-2">
+                        Penjabaran Langkah Matematika (Step-by-Step)
+                    </h3>
+
+                    <div id="calcOutputResult" class="space-y-4 text-xs md:text-sm text-slate-200">
+                        <!-- Step breakdown inserted via JS -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- TAB 4: MODUL RUMUS & BUDAYA KEI -->
+        <section id="tabModule" class="hidden space-y-6">
+            
+            <div class="glass-card p-6 rounded-3xl space-y-3">
+                <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[11px] font-bold px-3 py-1 rounded-full uppercase">
+                    Materi & Etnomatematika Kei
+                </span>
+                <h2 class="text-xl md:text-2xl font-extrabold text-white">
+                    Modul Distribusi Binomial & Kekayaan Kuliner Kei
+                </h2>
+                <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                    Pelajari landasan teori probabilitas binomial beserta kearifan lokal pembuatan makanan tradisional khas Kepulauan Kei (Evav), Maluku Tenggara.
+                </p>
+            </div>
+
+            <!-- Theory Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Math Theory Box -->
+                <div class="glass-card p-6 rounded-3xl space-y-4">
+                    <h3 class="text-base font-bold text-amber-400 flex items-center space-x-2">
+                        <span>📐 Konsep Matematika Distribusi Binomial</span>
+                    </h3>
+                    <div class="text-xs text-slate-300 space-y-3 leading-relaxed">
+                        <p>
+                            Distribusi binomial adalah distribusi probabilitas diskrit dari jumlah sukses dalam $n$ percobaan ya/tidak yang bebas.
+                        </p>
+                        <div class="bg-slate-900/90 p-3 rounded-2xl border border-slate-800 font-mono text-cyan-300 text-xs">
+                            P(X = k) = \binom{n}{k} \cdot p^k \cdot (1-p)^{n-k}
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-slate-300">
+                            <li><strong>$\binom{n}{k} = \frac{n!}{k!(n-k)!}$</strong>: Jumlah kombinasi cara memilih $k$ sukses dari $n$ percobaan.</li>
+                            <li><strong>$p$</strong>: Peluang sukses satu percobaan ($0 \le p \le 1$).</li>
+                            <li><strong>$q = 1 - p$</strong>: Peluang gagal satu percobaan.</li>
+                            <li><strong>Rata-rata / Nilai Harapan ($\mu$)</strong>: $\mu = n \cdot p$</li>
+                            <li><strong>Varians ($\sigma^2$)</strong>: $\sigma^2 = n \cdot p \cdot q$</li>
+                            <li><strong>Simpangan Baku ($\sigma$)</strong>: $\sigma = \sqrt{n \cdot p \cdot q}$</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Culinary Culture Box -->
+                <div class="glass-card p-6 rounded-3xl space-y-4">
+                    <h3 class="text-base font-bold text-cyan-400 flex items-center space-x-2">
+                        <span>🫓 Kekayaan Kuliner Tradisional Kei (Evav)</span>
+                    </h3>
+                    <div class="text-xs text-slate-300 space-y-3 leading-relaxed">
+                        <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 space-y-1">
+                            <strong class="text-amber-300">1. Enbal (Cassava Processed Food):</strong>
+                            <p class="text-slate-300">Makanan pokok khas Kei berbahan dasar singkong racun yang dipress untuk membuang racun HCN. Diolah menjadi Enbal Bunga, Enbal Stik, Enbal Goreng, dan Sambal Enbal.</p>
+                        </div>
+                        <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 space-y-1">
+                            <strong class="text-emerald-300">2. Lat Evav (Anggur Laut / Seaweed):</strong>
+                            <p class="text-slate-300">Rumput laut segar khas pesisir Kepulauan Kei yang disajikan segar dengan parutan kelapa bumbu khas.</p>
+                        </div>
+                        <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800 space-y-1">
+                            <strong class="text-amber-300">3. Ikan Kuah Kuning & Sirsir:</strong>
+                            <p class="text-slate-300">Olahan ikan segar hasil tangkapan nelayan Kei disajikan dengan kuah rempah kunyit asam segar, dipadu tumis Sirsir (daun singkong & bunga pepaya).</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- TAB 5: REFLEKSI SISWA & MOTIVASI MASTERY APPROACH -->
+        <section id="tabReflection" class="hidden space-y-6">
+            
+            <!-- Summary Banner -->
+            <div class="glass-card p-8 rounded-3xl text-center space-y-4 border border-amber-500/30 relative overflow-hidden">
+                <div class="inline-block bg-amber-400 text-slate-950 font-extrabold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider">
+                    🎉 Capaian Pembelajaran Siswa
+                </div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white">Laporan Hasil Refleksi & Evaluasi</h2>
+                
+                <div class="inline-flex items-center space-x-6 bg-slate-900/80 border border-slate-700/80 px-6 py-4 rounded-2xl">
+                    <div class="text-left">
+                        <div class="text-[10px] text-slate-400 font-bold uppercase">Siswa</div>
+                        <div id="summaryStudentName" class="font-bold text-amber-300 text-base">Zhang Linghe</div>
+                        <div id="summaryStudentClass" class="text-xs text-slate-400">Kelas XII</div>
+                    </div>
+                    <div class="h-8 w-px bg-slate-700"></div>
+                    <div class="text-left">
+                        <div class="text-[10px] text-slate-400 font-bold uppercase">Skor Game Misi</div>
+                        <div id="summaryScore" class="font-extrabold text-2xl text-emerald-400">0 / 300 Poin</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MASTERY APPROACH MOTIVATIONAL CARD -->
+            <div class="bg-gradient-to-r from-amber-500/20 via-slate-900 to-cyan-500/20 border-2 border-amber-400/50 p-6 md:p-8 rounded-3xl space-y-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center font-extrabold text-xl shadow-lg">
+                        ✨
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-base md:text-lg">Pesan Motivasi: Mastery Approach (Penguasaan Sejati)</h3>
+                        <p class="text-xs text-slate-400">Filosofi Pembelajaran Matematika Berkelanjutan</p>
+                    </div>
+                </div>
+
+                <blockquote class="text-slate-200 text-xs md:text-sm font-medium leading-relaxed italic bg-slate-950/70 p-4 rounded-2xl border border-slate-800">
+                    "Sama halnya dalam pembuatan <strong class="text-amber-300">Enbal khas Kei</strong>, di mana ketelitian memeras air asam dan konsistensi proses adalah kunci menghasilkan hidangan renyah nan nikmat; dalam matematika, <strong>tujuan utamamu bukanlah sekadar meraih nilai akhir yang tinggi, melainkan memahami proses dan logika di balik setiap rumus.</strong> Jangan pernah takut membuat kekeliruan saat berlatih, sebab analisis kesalahan adalah pijakan terbaik menuju pemahaman yang kokoh dan abadi!"
+                </blockquote>
+            </div>
+
+            <!-- STUDENT REFLECTION FORM -->
+            <div class="glass-card p-6 md:p-8 rounded-3xl space-y-6">
+                <div class="border-b border-slate-800 pb-4">
+                    <h3 class="text-lg font-bold text-white">Lembar Refleksi Mandiri Siswa</h3>
+                    <p class="text-xs text-slate-400">Isi refleksi ini secara jujur untuk mengevaluasi pengalaman belajarmu.</p>
+                </div>
+
+                <form id="reflectionForm" onsubmit="saveStudentReflection(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                            1. Tingkat pemahamanmu tentang Distribusi Binomial:
+                        </label>
+                        <select id="refRating" required class="bg-slate-900 border border-slate-700 text-xs text-white rounded-xl px-4 py-3 font-semibold focus:outline-none focus:border-cyan-500 w-full md:w-auto">
+                            <option value="5">⭐⭐⭐⭐⭐ (Sangat Paham & Bisa Mengajari Teman)</option>
+                            <option value="4">⭐⭐⭐⭐ (Paham Baik Sebagian Besar Konsep)</option>
+                            <option value="3">⭐⭐⭐ (Cukup Paham, Perlu Banyak Latihan Rumus)</option>
+                            <option value="2">⭐⭐ (Kurang Paham, Butuh Bimbingan Guru)</option>
+                            <option value="1">⭐ (Belum Paham Sama Sekali)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="refQ1" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                            2. Konsep mana yang paling kamu kuasai? (Contoh: Menghitung P(X=k), Rata-rata μ, atau membaca histogram)
+                        </label>
+                        <textarea id="refQ1" rows="2" required placeholder="Tuliskan jawabanmu di sini..." 
+                            class="w-full bg-slate-900 border border-slate-700 text-xs text-white rounded-xl p-3 focus:outline-none focus:border-cyan-500 custom-scrollbar"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="refQ2" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                            3. Kendala apa yang kamu hadapi dan apa rencanamu untuk mengatasinya?
+                        </label>
+                        <textarea id="refQ2" rows="2" required placeholder="Tuliskan kendala & strategi belajarmu..." 
+                            class="w-full bg-slate-900 border border-slate-700 text-xs text-white rounded-xl p-3 focus:outline-none focus:border-cyan-500 custom-scrollbar"></textarea>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button type="submit" id="btnSubmitRef" 
+                            class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 rounded-xl text-xs transition shadow-lg flex items-center space-x-2">
+                            <span>✅ Simpan Refleksi Saya</span>
+                        </button>
+
+                        <button type="button" onclick="window.print()" 
+                            class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3 px-6 rounded-xl text-xs border border-slate-700 transition flex items-center space-x-2">
+                            <span>🖨️ Cetak / Simpan PDF Laporan</span>
+                        </button>
+                    </div>
+                </form>
+
+                <div id="reflectionSavedAlert" class="hidden p-4 bg-emerald-950/60 border border-emerald-500/40 rounded-2xl text-xs text-emerald-300 font-semibold">
+                    ✅ Refleksi berhasil disimpan! Kamu dapat menyerahkan cetakan atau tangkapan layar laporan ini kepada Ibu Hilda Widia Rita Hamid, S.Pd.Gr.
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- EDIT STUDENT MODAL -->
+    <div id="modalEditUser" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-card p-6 md:p-8 rounded-3xl max-w-md w-full space-y-5 border border-slate-700">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white">Ubah Identitas Siswa</h3>
+                <button onclick="closeModalEditUser()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Nama Siswa</label>
+                    <input type="text" id="modalInputName" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Kelas / Kelompok</label>
+                    <input type="text" id="modalInputClass" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500">
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-3 pt-2">
+                <button onclick="closeModalEditUser()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">Batal</button>
+                <button onclick="saveModalEditUser()" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-4 text-center text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>
+                Media Pembelajaran Interaktif Matematika Lanjut Class XII • <strong>Distribusi Binomial Kuliner Kei</strong>
+            </div>
+            <div>
+                Pengembang: <span class="font-bold text-amber-400">Hilda Widia Rita Hamid, S.Pd.Gr</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Global Application State
+        const state = {
+            studentName: '',
+            studentClass: 'XII',
+            score: 0,
+            currentQuestionIndex: 0,
+            soundEnabled: true,
+            chartInstance: null,
+            audioCtx: null,
+            labCompleted: false // Gate flag for proceeding
+        };
+
+        // Web Audio Synthesizer for SFX
+        function playSfx(type) {
+            if (!state.soundEnabled) return;
+            try {
+                if (!state.audioCtx) {
+                    state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (state.audioCtx.state === 'suspended') {
+                    state.audioCtx.resume();
+                }
+                const ctx = state.audioCtx;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                const now = ctx.currentTime;
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.08);
+                    osc.frequency.setValueAtTime(783.99, now + 0.16);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.setValueAtTime(180, now + 0.12);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                }
+            } catch (e) {
+                console.warn('Audio play failed', e);
+            }
+        }
+
+        // Student Info & Welcome Screen Handlers
+        function startAppWithStudentInfo(e) {
+            if (e) e.preventDefault();
+            const nameInput = document.getElementById('welcomeInputName').value.trim();
+            const classInput = document.getElementById('welcomeInputClass').value.trim();
+
+            if (!nameInput) return;
+
+            state.studentName = nameInput;
+            state.studentClass = classInput || 'XII';
+
+            document.getElementById('headerStudentName').innerText = state.studentName;
+            document.getElementById('headerStudentClass').innerText = state.studentClass;
+            document.getElementById('summaryStudentName').innerText = state.studentName;
+            document.getElementById('summaryStudentClass').innerText = `Kelas ${state.studentClass}`;
+
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            playSfx('correct');
+        }
+
+        function openWelcomeScreen() {
+            playSfx('click');
+            if (state.studentName) {
+                document.getElementById('welcomeInputName').value = state.studentName;
+            }
+            if (state.studentClass) {
+                document.getElementById('welcomeInputClass').value = state.studentClass;
+            }
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+        }
+
+        // Tab Navigation with Gate Check
+        function switchTab(tabId) {
+            playSfx('click');
+
+            // Gate Check: Require lab test before accessing game, calc, reflection
+            if ((tabId === 'game' || tabId === 'calc' || tabId === 'reflection') && !state.labCompleted) {
+                playSfx('wrong');
+                alert("⚠️ Selesaikan minimal 1x uji coba memasak Enbal di 'Lab Eksperimen' terlebih dahulu dengan menekan tombol 🔥 'Goreng & Uji Batch Enbal'!");
+                return;
+            }
+
+            const tabs = ['lab', 'game', 'calc', 'module', 'reflection'];
+            tabs.forEach(t => {
+                const el = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
+                const nav = document.getElementById('navTab' + t.charAt(0).toUpperCase() + t.slice(1));
+                if (t === tabId) {
+                    el.classList.remove('hidden');
+                    nav.className = "nav-tab-active py-3 px-4 md:px-5 text-xs md:text-sm font-bold flex items-center space-x-2 whitespace-nowrap transition opacity-100";
+                } else {
+                    el.classList.add('hidden');
+                    const isLocked = (!state.labCompleted && (t === 'game' || t === 'calc' || t === 'reflection'));
+                    nav.className = `nav-tab-inactive py-3 px-4 md:px-5 text-xs md:text-sm font-bold flex items-center space-x-2 whitespace-nowrap transition ${isLocked ? 'opacity-60 cursor-not-allowed' : 'opacity-100'}`;
+                }
+            });
+
+            if (tabId === 'lab' && !state.chartInstance) {
+                initLabChart();
+                updateLabSim();
+            }
+            if (tabId === 'game') {
+                renderGameQuestion();
+            }
+            if (tabId === 'calc') {
+                calculateBinomialTool();
+            }
+        }
+
+        // ENBAL VISUAL COOKING SIMULATOR FUNCTION
+        function runEnbalCookingSim() {
+            playSfx('click');
+
+            const n = parseInt(document.getElementById('labSliderN').value);
+            const p = parseFloat(document.getElementById('labSliderP').value);
+            const k = parseInt(document.getElementById('labSliderK').value);
+
+            const trayGrid = document.getElementById('enbalTrayGrid');
+            const statusTag = document.getElementById('cookingStatusTag');
+            const summaryBox = document.getElementById('cookingSummaryBox');
+            const btnRun = document.getElementById('btnRunCookSim');
+
+            btnRun.disabled = true;
+            btnRun.innerText = "⏳ Sedang Memasak & Menggoreng Enbal...";
+
+            statusTag.innerText = "🔥 Proses Pemanggangan...";
+            statusTag.className = "text-[11px] bg-amber-500/20 text-amber-300 font-bold px-2.5 py-1 rounded-full border border-amber-500/40 animate-pulse";
+
+            // Visual Cooking Placeholder Animation
+            trayGrid.innerHTML = '';
+            for (let i = 1; i <= n; i++) {
+                const card = document.createElement('div');
+                card.className = "p-3 rounded-2xl bg-slate-900 border border-slate-800 text-center space-y-1 animate-bounce";
+                card.innerHTML = `
+                    <div class="text-2xl">🥣</div>
+                    <div class="text-[10px] font-bold text-slate-400">Batch #${i}</div>
+                    <div class="text-[9px] text-amber-400 font-semibold">Memasak...</div>
+                `;
+                trayGrid.appendChild(card);
+            }
+
+            // Simulate cooking completion after delay
+            setTimeout(() => {
+                let successCount = 0;
+                trayGrid.innerHTML = '';
+
+                for (let i = 1; i <= n; i++) {
+                    const isSuccess = Math.random() < p;
+                    if (isSuccess) successCount++;
+
+                    const card = document.createElement('div');
+                    if (isSuccess) {
+                        card.className = "p-3 rounded-2xl bg-emerald-950/70 border border-emerald-500/50 text-center space-y-1 transform hover:scale-105 transition shadow-lg";
+                        card.innerHTML = `
+                            <div class="text-2xl drop-shadow">🫓</div>
+                            <div class="text-[10px] font-bold text-emerald-300">Batch #${i}</div>
+                            <div class="text-[9px] bg-emerald-500/20 text-emerald-300 font-bold px-1.5 py-0.5 rounded-full border border-emerald-500/40">✨ Renyah</div>
+                        `;
+                    } else {
+                        card.className = "p-3 rounded-2xl bg-rose-950/70 border border-rose-500/50 text-center space-y-1 transform hover:scale-105 transition";
+                        card.innerHTML = `
+                            <div class="text-2xl drop-shadow opacity-60">💨</div>
+                            <div class="text-[10px] font-bold text-rose-300">Batch #${i}</div>
+                            <div class="text-[9px] bg-rose-500/20 text-rose-300 font-bold px-1.5 py-0.5 rounded-full border border-rose-500/40">Lembab</div>
+                        `;
+                    }
+                    trayGrid.appendChild(card);
+                }
+
+                playSfx(successCount >= k ? 'correct' : 'click');
+
+                statusTag.innerText = "✅ Selesai Diuji!";
+                statusTag.className = "text-[11px] bg-emerald-500/20 text-emerald-300 font-bold px-2.5 py-1 rounded-full border border-emerald-500/40";
+
+                summaryBox.classList.remove('hidden');
+                summaryBox.innerHTML = `
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-300 font-bold">Hasil Pengujian Uji Coba:</span>
+                        <span class="font-extrabold ${successCount >= k ? 'text-emerald-400' : 'text-amber-400'}">
+                            ${successCount} dari ${n} Batch Renyah Sempurna
+                        </span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 mt-0.5">
+                        Target sukses awal: $k = ${k}$ batch. Berdasarkan teori binomial, peluang tepat $P(X=${k})$ adalah <strong>${(binomialProbability(n, k, p) * 100).toFixed(2)}%</strong>.
+                    </div>
+                `;
+
+                if (window.renderMathInElement) renderMathInElement(summaryBox);
+
+                // Unlock App Gate
+                state.labCompleted = true;
+                unlockAppMenu();
+
+                btnRun.disabled = false;
+                btnRun.innerText = "🔥 Goreng & Uji Batch Enbal Lagi";
+            }, 800);
+        }
+
+        // UNLOCK MENU GATE LOGIC
+        function unlockAppMenu() {
+            // Update Lab Status Badge
+            const badge = document.getElementById('labStatusBadge');
+            badge.className = "bg-emerald-500/20 border border-emerald-500/40 p-3 rounded-2xl text-xs text-emerald-300 flex items-center space-x-2";
+            badge.innerHTML = `
+                <span class="text-lg">🔓</span>
+                <div>
+                    <strong class="block text-emerald-200">Akses Terbuka!</strong>
+                    <span>Kamu telah menyelesaikan eksperimen Lab Enbal.</span>
+                </div>
+            `;
+
+            // Enable Proceed Button in Lab
+            const btnProceed = document.getElementById('btnProceedToGame');
+            btnProceed.disabled = false;
+            btnProceed.className = "w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold py-3 px-4 rounded-xl text-xs transition transform active:scale-95 flex items-center justify-center space-x-2 shadow-lg ring-2 ring-amber-400/30";
+            document.getElementById('btnProceedLockIcon').innerText = "➡️";
+
+            // Remove lock icons from header navigation tabs
+            ['lockIconGame', 'lockIconCalc', 'lockIconRef'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.remove();
+            });
+
+            // Unlock tab visual styles
+            ['navTabGame', 'navTabCalc', 'navTabReflection'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('opacity-60', 'cursor-not-allowed');
+            });
+        }
+
+        function proceedToGameTab() {
+            if (state.labCompleted) {
+                switchTab('game');
+            }
+        }
+
+        function toggleAudio() {
+            state.soundEnabled = !state.soundEnabled;
+            document.getElementById('audioIcon').innerText = state.soundEnabled ? '🔊' : '🔇';
+            document.getElementById('audioText').innerText = state.soundEnabled ? 'Suara: ON' : 'Suara: OFF';
+            if (state.soundEnabled) playSfx('click');
+        }
+
+        // Math Helpers
+        function factorial(num) {
+            if (num < 0) return -1;
+            if (num === 0 || num === 1) return 1;
+            let result = 1;
+            for (let i = 2; i <= num; i++) result *= i;
+            return result;
+        }
+
+        function nCr(n, r) {
+            if (r < 0 || r > n) return 0;
+            return factorial(n) / (factorial(r) * factorial(n - r));
+        }
+
+        function binomialProbability(n, k, p) {
+            return nCr(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+        }
+
+        // 15 Questions Bank (Kei Culinary Context)
+        const quizQuestions = [
+            {
+                level: 1,
+                title: "Level 1: Kerenyahan Enbal Stik Evav",
+                category: "Kejadian Tepat P(X = k)",
+                points: 20,
+                context: "Seorang pembuat Enbal Stik khas Kei di Ooidah memproduksi Enbal renyah. Peluang 1 batch Enbal mencapai kerenyahan sempurna adalah $p = 0.8$. Jika diproduksi $n = 5$ batch Enbal, berapakah peluang tepat $k = 4$ batch Enbal mencapai kerenyahan sempurna?",
+                options: [
+                    { label: "A. 0.4096 (40.96%)", correct: true, explain: "Benar! $P(X=4) = \\binom{5}{4} \\cdot (0.8)^4 \\cdot (0.2)^1 = 5 \\cdot 0.4096 \\cdot 0.2 = 0.4096$." },
+                    { label: "B. 0.3276 (32.76%)", correct: false, explain: "Kurang tepat. Pastikan perkalian kombinasi $\\binom{5}{4} = 5$ dengan $(0.8)^4$ dan $(0.2)^1$." },
+                    { label: "C. 0.2048 (20.48%)", correct: false, explain: "Kurang tepat. Periksa perpangkatan $0.8^4 = 0.4096$." },
+                    { label: "D. 0.5000 (50.00%)", correct: false, explain: "Salah. Sertakan nilai kombinasi $\\binom{5}{4}$." }
+                ],
+                hint: "Gunakan $P(X=4) = \\binom{5}{4} \\cdot (0.8)^4 \\cdot (0.2)^1$."
+            },
+            {
+                level: 2,
+                title: "Level 2: Panen Lat (Rumput Laut Kei) Super",
+                category: "Peluang Kumulatif P(X ≥ k)",
+                points: 20,
+                context: "Nelayan di Ngurbloat memanen 4 keranjang Lat (rumput laut khas Kei). Peluang tiap keranjang Lat berkualitas mutu super adalah $p = 0.5$. Berapa peluang mendapatkan sekurang-kurangnya 3 keranjang Lat mutu super ($P(X \\ge 3)$)?",
+                options: [
+                    { label: "A. 0.1875", correct: false, explain: "Ini hanya $P(X=3)$. Untuk 'sekurang-kurangnya 3', hitung $P(X=3) + P(X=4)$." },
+                    { label: "B. 0.3125 (31.25%)", correct: true, explain: "Sangat Tepat! $P(X=3) = 4/16 = 0.25$, $P(X=4) = 1/16 = 0.0625$. $P(X \\ge 3) = 0.25 + 0.0625 = 0.3125$." },
+                    { label: "C. 0.5000", correct: false, explain: "Kurang tepat. Jumlahkan nilai probabilitas $X=3$ dan $X=4$." },
+                    { label: "D. 0.2500", correct: false, explain: "Salah. $0.25$ hanya nilai $P(X=3)$." }
+                ],
+                hint: "Sekurang-kurangnya 3 berarti $P(X \\ge 3) = P(X=3) + P(X=4)$."
+            },
+            {
+                level: 3,
+                title: "Level 3: Porsi Ikan Kuah Kuning Extra Pedas",
+                category: "Rata-rata (Nilai Harapan μ)",
+                points: 20,
+                context: "Restoran kuliner khas Evav menyajikan $n = 20$ porsi Ikan Kuah Kuning. Peluang seorang pengunjung memesan kuah ekstra pedas adalah $p = 0.35$. Berapakah rata-rata (nilai harapan $\\mu$) porsi kuah pedas yang dipesan?",
+                options: [
+                    { label: "A. 5.0 porsi", correct: false, explain: "Kurang tepat. Gunakan rumus $\\mu = n \\cdot p$." },
+                    { label: "B. 7.0 porsi", correct: true, explain: "Tepat Sekali! Nilai harapan rata-rata $\\mu = n \\cdot p = 20 \\cdot 0.35 = 7$ porsi." },
+                    { label: "C. 10.0 porsi", correct: false, explain: "Kurang tepat. Nilai 10 diperoleh bila $p = 0.5$." },
+                    { label: "D. 4.55 porsi", correct: false, explain: "Salah. $4.55$ adalah nilai Varians $\\sigma^2 = n \\cdot p \\cdot q$." }
+                ],
+                hint: "Rumus rata-rata binomial: $\\mu = n \\cdot p$."
+            },
+            {
+                level: 4,
+                title: "Level 4: Penyegelan Sambal Enbal Kemasan",
+                category: "Varians & Simpangan Baku σ",
+                points: 20,
+                context: "Diproduksi $n = 100$ kemasan Sambal Enbal khas Kei. Peluang kemasan tersegel rapat adalah $p = 0.9$ ($q = 0.1$). Berapakah simpangan baku ($\\sigma$) dari jumlah kemasan yang tersegel rapat?",
+                options: [
+                    { label: "A. 9.00", correct: false, explain: "9 adalah nilai Varians ($\\sigma^2 = 100 \\cdot 0.9 \\cdot 0.1 = 9$). Simpangan baku adalah akar kuadrat varians." },
+                    { label: "B. 3.00", correct: true, explain: "Hebat! Varians $\\sigma^2 = n \\cdot p \\cdot q = 9$. Maka simpangan baku $\\sigma = \\sqrt{9} = 3$." },
+                    { label: "C. 90.00", correct: false, explain: "90 adalah nilai rata-rata $\\mu = n \\cdot p$." },
+                    { label: "D. 1.73", correct: false, explain: "Salah. Hitung $\\sqrt{100 \\cdot 0.9 \\cdot 0.1} = \\sqrt{9} = 3$." }
+                ],
+                hint: "Varians $\\sigma^2 = n \\cdot p \\cdot q$. Simpangan baku $\\sigma = \\sqrt{\\sigma^2}$."
+            },
+            {
+                level: 5,
+                title: "Level 5: Cita Rasa Sirsir khas Evav",
+                category: "Kejadian Tepat P(X = k)",
+                points: 20,
+                context: "Ibu koki Kei memasak $n = 6$ porsi Sirsir (tumis daun singkong & bunga pepaya). Peluang porsi memiliki kepedasan pas adalah $p = 0.5$. Berapa peluang tepat $k = 3$ porsi rasanya pas?",
+                options: [
+                    { label: "A. 0.3125 (31.25%)", correct: true, explain: "Benar! $P(X=3) = \\binom{6}{3} \\cdot (0.5)^3 \\cdot (0.5)^3 = 20 \\cdot 0.015625 = 0.3125$." },
+                    { label: "B. 0.2500 (25.00%)", correct: false, explain: "Kurang tepat. Kombinasi $\\binom{6}{3} = 20$." },
+                    { label: "C. 0.1875 (18.75%)", correct: false, explain: "Salah. Periksa kembali perkalian kombinasi." },
+                    { label: "D. 0.5000 (50.00%)", correct: false, explain: "Kurang tepat." }
+                ],
+                hint: "Hitung $P(X=3) = \\binom{6}{3} \\cdot (0.5)^6$."
+            },
+            {
+                level: 6,
+                title: "Level 6: Produksi Enbal Lempeng Tanpa Retak",
+                category: "Peluang Kumulatif P(X ≥ 9)",
+                points: 20,
+                context: "Pabrik Enbal Lempeng menguji $n = 10$ keping Enbal. Peluang keping utuh tanpa retak adalah $p = 0.9$. Berapa peluang paling sedikit 9 keping utuh ($P(X \\ge 9)$)?",
+                options: [
+                    { label: "A. 0.3874", correct: false, explain: "Ini hanya $P(X=9)$. Kamu harus menjumlahkan $P(X=9) + P(X=10)$." },
+                    { label: "B. 0.7361 (73.61%)", correct: true, explain: "Tepat! $P(X=9) = 0.3874$, $P(X=10) = 0.3487$. Maka $P(X \\ge 9) = 0.7361$." },
+                    { label: "C. 0.3487", correct: false, explain: "Ini nilai $P(X=10)$." },
+                    { label: "D. 0.9000", correct: false, explain: "Kurang tepat." }
+                ],
+                hint: "$P(X \\ge 9) = P(X=9) + P(X=10)$."
+            },
+            {
+                level: 7,
+                title: "Level 7: Pesanan Ikan Bakar Colo-Colo",
+                category: "Analisis Varians σ²",
+                points: 20,
+                context: "Dari $n = 8$ meja makan di resto Kei, peluang meja memesan Ikan Bakar Colo-Colo adalah $p = 0.6$. Berapakah nilai Varians ($\\sigma^2$) dari pesanan ini?",
+                options: [
+                    { label: "A. 4.80", correct: false, explain: "4.8 adalah Rata-rata $\\mu = 8 \\cdot 0.6$." },
+                    { label: "B. 1.92", correct: true, explain: "Sangat Tepat! Varians $\\sigma^2 = n \\cdot p \\cdot q = 8 \\cdot 0.6 \\cdot 0.4 = 1.92$." },
+                    { label: "C. 1.38", correct: false, explain: "1.38 adalah Simpangan Baku $\\sigma = \\sqrt{1.92}$." },
+                    { label: "D. 3.20", correct: false, explain: "Kurang tepat." }
+                ],
+                hint: "Varians $\\sigma^2 = n \\cdot p \\cdot (1-p)$."
+            },
+            {
+                level: 8,
+                title: "Level 8: Uji Kerenyahan Kacang Enbal Oven",
+                category: "Kejadian Nol P(X = 0)",
+                points: 20,
+                context: "Uji coba $n = 5$ bungkus Kacang Enbal Oven. Jika peluang bungkus gagal renyah adalah $q = 0.6$ (maka $p = 0.4$), berapa peluang seluruh 5 bungkus tidak renyah ($P(X = 0)$)?",
+                options: [
+                    { label: "A. 0.0778 (7.78%)", correct: true, explain: "Benar! $P(X=0) = (0.6)^5 = 0.07776 \\approx 0.0778$." },
+                    { label: "B. 0.0102", correct: false, explain: "Kurang tepat. $(0.6)^5 = 0.07776$." },
+                    { label: "C. 0.4000", correct: false, explain: "Salah." },
+                    { label: "D. 0.2000", correct: false, explain: "Kurang tepat." }
+                ],
+                hint: "$P(X=0) = \\binom{5}{0} \\cdot (0.4)^0 \\cdot (0.6)^5 = (0.6)^5$."
+            },
+            {
+                level: 9,
+                title: "Level 9: Kemasan Oleh-Oleh Enbal Bunga",
+                category: "Nilai Harapan μ & Varians",
+                points: 20,
+                context: "Seorang wisatawan membeli $n = 12$ kemasan Enbal Bunga. Peluang tiap kemasan bertahan 1 bulan adalah $p = 0.75$. Berapakah nilai rata-rata ($\\mu$) kemasan yang bertahan?",
+                options: [
+                    { label: "A. 9 kemasan", correct: true, explain: "Tepat! $\\mu = n \\cdot p = 12 \\cdot 0.75 = 9$ kemasan." },
+                    { label: "B. 3 kemasan", correct: false, explain: "3 adalah $n \\cdot q$ (kemasan yang tidak bertahan)." },
+                    { label: "C. 6 kemasan", correct: false, explain: "Kurang tepat." },
+                    { label: "D. 10 kemasan", correct: false, explain: "Kurang tepat." }
+                ],
+                hint: "Rata-rata $\\mu = n \\cdot p$."
+            },
+            {
+                level: 10,
+                title: "Level 10: Pengolahan Enbal Bebas Asam HCN",
+                category: "Kejadian Sempurna P(X = n)",
+                points: 20,
+                context: "Dalam pemerasan asam HCN singkong khas Kei, $n = 15$ batch diuji. Peluang 1 batch benar-benar aman adalah $p = 0.95$. Berapa peluang seluruh 15 batch aman ($P(X = 15)$)?",
+                options: [
+                    { label: "A. 0.4633 (46.33%)", correct: true, explain: "Sangat Tepat! $P(X=15) = (0.95)^{15} \\approx 0.4633$." },
+                    { label: "B. 0.9500", correct: false, explain: "Ini hanya nilai $p$." },
+                    { label: "C. 0.5000", correct: false, explain: "Kurang tepat." },
+                    { label: "D. 0.3500", correct: false, explain: "Kurang tepat." }
+                ],
+                hint: "$P(X=15) = (0.95)^{15}$."
+            },
+            {
+                level: 11,
+                title: "Level 11: Pelanggan Pesisir Pasir Panjang",
+                category: "Peluang Kumulatif P(X < 2)",
+                points: 20,
+                context: "Di warung makan Pantai Ngurbloat, $n = 6$ pembeli datang. Peluang pembeli memesan Kelapa Muda Evav adalah $p = 0.5$. Berapa peluang kurang dari 2 orang memesan kelapa muda ($P(X < 2)$)?",
+                options: [
+                    { label: "A. 0.1094 (10.94%)", correct: true, explain: "Benar! $P(X < 2) = P(X=0) + P(X=1) = 0.015625 + 0.09375 = 0.109375$." },
+                    { label: "B. 0.2344", correct: false, explain: "Ini mencakup $P(X=2)$." },
+                    { label: "C. 0.0156", correct: false, explain: "Ini hanya $P(X=0)$." },
+                    { label: "D. 0.3125", correct: false, explain: "Kurang tepat." }
+                ],
+                hint: "$P(X < 2) = P(X=0) + P(X=1)$."
+            },
+            {
+                level: 12,
+                title: "Level 12: Panen Rumput Laut Lat Segar",
+                category: "Modul & Modus Binomial",
+                points: 20,
+                context: "Dipanen $n = 10$ sampel Lat. Peluang sampel bermutu A adalah $p = 0.7$. Manakah nilai $k$ (jumlah sampel) yang memiliki peluang probabilitas TERTINGGI (Modus)?",
+                options: [
+                    { label: "A. k = 7 sampel", correct: true, explain: "Hebat! Modus distribusi binomial terletak di sekitar nilai rata-rata $\\mu = n \\cdot p = 10 \\cdot 0.7 = 7$." },
+                    { label: "B. k = 5 sampel", correct: false, explain: "Kurang tepat." },
+                    { label: "C. k = 10 sampel", correct: false, explain: "Peluang $X=10$ lebih kecil daripada $X=7$." },
+                    { label: "D. k = 3 sampel", correct: false, explain: "Kurang tepat." }
+                ],
+                hint: "Nilai terbanyak/tertinggi terjadi dekat rata-rata $\\mu = n \\cdot p = 7$."
+            },
+            {
+                level: 13,
+                title: "Level 13: Stand Festival Met Kei",
+                category: "Peluang Kumulatif P(X ≤ 2)",
+                points: 20,
+                context: "Di stand Festival Met Kei, $n = 5$ pengunjung mencicipi Ikan Kuah Kuning. Peluang suka adalah $p = 0.6$. Berapa peluang paling banyak 2 pengunjung yang suka ($P(X \\le 2)$)?",
+                options: [
+                    { label: "A. 0.3174 (31.74%)", correct: true, explain: "Tepat! $P(X=0)+P(X=1)+P(X=2) = 0.01024 + 0.0768 + 0.2304 = 0.31744$." },
+                    { label: "B. 0.2304", correct: false, explain: "Ini hanya $P(X=2)$." },
+                    { label: "C. 0.6826", correct: false, explain: "Ini adalah $P(X \\ge 3)$." },
+                    { label: "D. 0.5000", correct: false, explain: "Salah." }
+                ],
+                hint: "$P(X \\le 2) = P(X=0) + P(X=1) + P(X=2)$."
+            },
+            {
+                level: 14,
+                title: "Level 14: Cita Rasa Ikan Barramundi Evav",
+                category: "Kejadian Tepat P(X = k)",
+                points: 20,
+                context: "Ibu koki Kei menggoreng $n = 7$ ekor Ikan Barramundi Evav. Peluang tingkat kematangan pas adalah $p = 0.8$. Berapa peluang tepat $k = 5$ ekor tingkat kematangannya pas?",
+                options: [
+                    { label: "A. 0.2753 (27.53%)", correct: true, explain: "Sangat Tepat! $P(X=5) = \\binom{7}{5} \\cdot (0.8)^5 \\cdot (0.2)^2 = 21 \\cdot 0.32768 \\cdot 0.04 = 0.27525$." },
+                    { label: "B. 0.3670", correct: false, explain: "Ini nilai $P(X=6)$." },
+                    { label: "C. 0.2097", correct: false, explain: "Ini nilai $P(X=4)$." },
+                    { label: "D. 0.1000", correct: false, explain: "Kurang tepat." }
+                ],
+                hint: "$P(X=5) = \\binom{7}{5} \\cdot (0.8)^5 \\cdot (0.2)^2$."
+            },
+            {
+                level: 15,
+                title: "Level 15: Ekspor Enbal Cassava Chips Evav",
+                category: "Ekspektasi & Simpangan Baku",
+                points: 20,
+                context: "Pengiriman $n = 50$ dus Enbal Chips ke luar Maluku Memiliki peluang standar kualitas $p = 0.96$. Hitunglah Rata-rata ($\\mu$) dan Simpangan Baku ($\\sigma$) berturut-turut!",
+                options: [
+                    { label: "A. μ = 48 dan σ = 1.386", correct: true, explain: "Luar Biasa! $\\mu = 50 \\cdot 0.96 = 48$. $\\sigma = \\sqrt{50 \\cdot 0.96 \\cdot 0.04} = \\sqrt{1.92} \\approx 1.3856$." },
+                    { label: "B. μ = 45 dan σ = 2.00", correct: false, explain: "Kurang tepat." },
+                    { label: "C. μ = 48 dan σ = 1.92", correct: false, explain: "1.92 adalah Varians ($\\sigma^2$), bukan simpangan baku." },
+                    { label: "D. μ = 50 dan σ = 1.00", correct: false, explain: "Kurang tepat." }
+                ],
+                hint: "$\\mu = n \\cdot p = 48$, $\\sigma = \\sqrt{n \\cdot p \\cdot q} = \\sqrt{1.92}$."
+            }
+        ];
+
+        // Navigation Logic
+        function switchTab(tabId) {
+            playSfx('click');
+            const tabs = ['lab', 'game', 'calc', 'module', 'reflection'];
+            tabs.forEach(t => {
+                const el = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
+                const nav = document.getElementById('navTab' + t.charAt(0).toUpperCase() + t.slice(1));
+                if (t === tabId) {
+                    el.classList.remove('hidden');
+                    nav.className = "nav-tab-active py-3 px-4 md:px-5 text-xs md:text-sm font-bold flex items-center space-x-2 whitespace-nowrap transition";
+                } else {
+                    el.classList.add('hidden');
+                    nav.className = "nav-tab-inactive py-3 px-4 md:px-5 text-xs md:text-sm font-bold flex items-center space-x-2 whitespace-nowrap transition";
+                }
+            });
+
+            if (tabId === 'lab' && !state.chartInstance) {
+                initLabChart();
+                updateLabSim();
+            }
+            if (tabId === 'game') {
+                renderGameQuestion();
+            }
+            if (tabId === 'calc') {
+                calculateBinomialTool();
+            }
+        }
+
+        // Tab 1: Lab Simulator & Chart.js
+        function initLabChart() {
+            const ctx = document.getElementById('labChart').getContext('2d');
+            state.chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Peluang P(X = k)',
+                        data: [],
+                        backgroundColor: [],
+                        borderColor: [],
+                        borderWidth: 1.5,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(c) {
+                                    return `P(X = ${c.label}) = ${c.raw.toFixed(4)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1.0,
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8' },
+                            title: { display: true, text: 'Peluang P(X=k)', color: '#cbd5e1', font: { size: 11, weight: 'bold' } }
+                        },
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8' },
+                            title: { display: true, text: 'Banyak Enbal Sukses (k)', color: '#cbd5e1', font: { size: 11, weight: 'bold' } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateLabSim() {
+            const n = parseInt(document.getElementById('labSliderN').value);
+            const p = parseFloat(document.getElementById('labSliderP').value);
+            let k = parseInt(document.getElementById('labSliderK').value);
+
+            if (k > n) {
+                k = n;
+                document.getElementById('labSliderK').value = n;
+            }
+            document.getElementById('labSliderK').max = n;
+            document.getElementById('labMaxKLabel').innerText = `${n} batch`;
+
+            document.getElementById('labValN').innerText = n;
+            document.getElementById('labValP').innerText = p.toFixed(2);
+            document.getElementById('labValK').innerText = k;
+            document.getElementById('labHighlightKText').innerText = k;
+
+            const comb = nCr(n, k);
+            const prob = binomialProbability(n, k, p);
+            const mean = n * p;
+            const variance = n * p * (1 - p);
+            const sd = Math.sqrt(variance);
+
+            document.getElementById('labResComb').innerText = comb;
+            document.getElementById('labResProb').innerText = `${prob.toFixed(4)} (${(prob * 100).toFixed(2)}%)`;
+            document.getElementById('labResMean').innerText = `${mean.toFixed(2)} batch`;
+            document.getElementById('labResVar').innerText = variance.toFixed(4);
+            document.getElementById('labResSd').innerText = sd.toFixed(3);
+
+            const labels = [];
+            const data = [];
+            const bgColors = [];
+            const borderColors = [];
+
+            for (let i = 0; i <= n; i++) {
+                labels.push(i.toString());
+                const probVal = binomialProbability(n, i, p);
+                data.push(probVal);
+
+                if (i === k) {
+                    bgColors.push('rgba(6, 182, 212, 0.85)'); // Cyan Highlight
+                    borderColors.push('#06b6d4');
+                } else {
+                    bgColors.push('rgba(245, 158, 11, 0.35)'); // Amber
+                    borderColors.push('#f59e0b');
+                }
+            }
+
+            if (state.chartInstance) {
+                state.chartInstance.data.labels = labels;
+                state.chartInstance.data.datasets[0].data = data;
+                state.chartInstance.data.datasets[0].backgroundColor = bgColors;
+                state.chartInstance.data.datasets[0].borderColor = borderColors;
+                state.chartInstance.update();
+            }
+        }
+
+        // Tab 2: Game Quiz Logic
+        function renderGameQuestion() {
+            const q = quizQuestions[state.currentQuestionIndex];
+
+            document.getElementById('gameLevelTitle').innerText = q.title;
+            document.getElementById('gameCurrentLevelNum').innerText = q.level;
+            document.getElementById('headerLevel').innerText = q.level;
+            document.getElementById('gameCategoryBadge').innerText = q.category;
+            document.getElementById('gamePointsBadge').innerText = `+${q.points} Poin`;
+            document.getElementById('gameQuestionText').innerText = `${q.title} (${q.category})`;
+            document.getElementById('gameCulinaryContext').innerHTML = `<strong>Skenario Kuliner:</strong> ${q.context}`;
+            document.getElementById('gameHintText').innerHTML = q.hint;
+
+            const grid = document.getElementById('gameOptionsGrid');
+            grid.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "game-opt-btn text-left p-4 rounded-2xl border border-slate-700 bg-slate-900/80 hover:border-cyan-500 hover:bg-cyan-950/30 transition font-medium text-xs md:text-sm text-slate-200 flex items-center justify-between";
+                btn.onclick = () => selectGameOption(idx, btn);
+                btn.innerHTML = `
+                    <span>${opt.label}</span>
+                    <span class="opt-icon text-base ml-2"></span>
+                `;
+                grid.appendChild(btn);
+            });
+
+            document.getElementById('gameFeedbackBox').className = "hidden p-4 rounded-2xl border text-xs md:text-sm space-y-2";
+            document.getElementById('gameHintBox').classList.add('hidden');
+
+            const nextBtn = document.getElementById('btnNextGame');
+            nextBtn.disabled = true;
+            nextBtn.className = "bg-slate-800 text-slate-500 font-bold py-2.5 px-6 rounded-xl text-xs transition cursor-not-allowed";
+            if (state.currentQuestionIndex === quizQuestions.length - 1) {
+                nextBtn.innerText = "🏁 Selesaikan Misi & Refleksi";
+            } else {
+                nextBtn.innerText = "Lanjut ke Soal Berikutnya ➡️";
+            }
+
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('tabGame'));
+            }
+        }
+
+        function selectGameOption(selectedIndex, clickedBtn) {
+            const q = quizQuestions[state.currentQuestionIndex];
+            const allBtns = document.querySelectorAll('.game-opt-btn');
+            allBtns.forEach(b => b.disabled = true);
+
+            const selectedOpt = q.options[selectedIndex];
+            const feedbackBox = document.getElementById('gameFeedbackBox');
+            const feedbackTitle = document.getElementById('gameFeedbackTitle');
+            const feedbackText = document.getElementById('gameFeedbackText');
+
+            if (selectedOpt.correct) {
+                playSfx('correct');
+                state.score += q.points;
+                document.getElementById('headerScore').innerText = state.score;
+                document.getElementById('gameCurrentScore').innerText = `${state.score} Poin`;
+                document.getElementById('summaryScore').innerText = `${state.score} / 300 Poin`;
+
+                clickedBtn.classList.remove('border-slate-700', 'bg-slate-900/80');
+                clickedBtn.classList.add('border-emerald-500', 'bg-emerald-950/60', 'text-emerald-200', 'font-bold');
+                clickedBtn.querySelector('.opt-icon').innerText = "✅";
+
+                feedbackBox.className = "p-4 rounded-2xl border border-emerald-500/50 bg-emerald-950/60 text-emerald-200 text-xs md:text-sm space-y-1";
+                feedbackTitle.innerHTML = "<span>🎉 Jawaban Benar! Kebanggaan Koki Kei!</span>";
+                feedbackText.innerHTML = selectedOpt.explain;
+            } else {
+                playSfx('wrong');
+                clickedBtn.classList.remove('border-slate-700', 'bg-slate-900/80');
+                clickedBtn.classList.add('border-rose-500', 'bg-rose-950/60', 'text-rose-200');
+                clickedBtn.querySelector('.opt-icon').innerText = "❌";
+
+                q.options.forEach((o, i) => {
+                    if (o.correct) {
+                        allBtns[i].classList.add('border-emerald-500', 'bg-emerald-950/60', 'text-emerald-200');
+                        allBtns[i].querySelector('.opt-icon').innerText = "✅";
+                    }
+                });
+
+                feedbackBox.className = "p-4 rounded-2xl border border-rose-500/50 bg-rose-950/60 text-rose-200 text-xs md:text-sm space-y-1";
+                feedbackTitle.innerHTML = "<span>💡 Belum Tepat. Mari Pelajari Pembahasannya:</span>";
+                feedbackText.innerHTML = selectedOpt.explain;
+            }
+
+            feedbackBox.classList.remove('hidden');
+
+            const nextBtn = document.getElementById('btnNextGame');
+            nextBtn.disabled = false;
+            nextBtn.className = "bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2.5 px-6 rounded-xl text-xs transition shadow-lg active:scale-95";
+
+            if (window.renderMathInElement) {
+                renderMathInElement(feedbackBox);
+            }
+        }
+
+        function toggleGameHint() {
+            playSfx('click');
+            const hintBox = document.getElementById('gameHintBox');
+            hintBox.classList.toggle('hidden');
+            if (window.renderMathInElement) {
+                renderMathInElement(hintBox);
+            }
+        }
+
+        function nextGameQuestion() {
+            playSfx('click');
+            if (state.currentQuestionIndex < quizQuestions.length - 1) {
+                state.currentQuestionIndex++;
+                renderGameQuestion();
+            } else {
+                switchTab('reflection');
+            }
+        }
+
+        // Tab 3: Binomial Calculator Tool
+        function calculateBinomialTool() {
+            const n = parseInt(document.getElementById('calcInputN').value) || 0;
+            const p = parseFloat(document.getElementById('calcInputP').value) || 0;
+            const k = parseInt(document.getElementById('calcInputK').value) || 0;
+
+            const out = document.getElementById('calcOutputResult');
+
+            if (n < 1 || p < 0 || p > 1 || k < 0 || k > n) {
+                out.innerHTML = `<div class="p-4 bg-rose-950/60 border border-rose-500/40 text-rose-300 rounded-2xl">⚠️ Mohon masukkan input valid: $n \\ge 1$, $0 \\le p \\le 1$, dan $0 \\le k \\le n$.</div>`;
+                if (window.renderMathInElement) renderMathInElement(out);
+                return;
+            }
+
+            const comb = nCr(n, k);
+            const probK = binomialProbability(n, k, p);
+            const mean = n * p;
+            const varB = n * p * (1 - p);
+            const sd = Math.sqrt(varB);
+
+            // Cumulative P(X <= k)
+            let probLessEq = 0;
+            for (let i = 0; i <= k; i++) probLessEq += binomialProbability(n, i, p);
+
+            // Cumulative P(X >= k)
+            let probGreaterEq = 0;
+            for (let i = k; i <= n; i++) probGreaterEq += binomialProbability(n, i, p);
+
+            out.innerHTML = `
+                <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="font-bold text-amber-300">1. Hasil Utama Probabilitas Binomial:</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400">Peluang Tepat $P(X = ${k})$:</span>
+                            <div class="text-base font-extrabold text-cyan-400 mt-1">${probK.toFixed(6)} (${(probK * 100).toFixed(4)}%)</div>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400">Kombinasi $\\binom{${n}}{${k}}$:</span>
+                            <div class="text-base font-bold text-white mt-1">${comb}</div>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400">Kumulatif $P(X \\le ${k})$:</span>
+                            <div class="text-sm font-bold text-emerald-400 mt-1">${probLessEq.toFixed(6)} (${(probLessEq * 100).toFixed(4)}%)</div>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400">Kumulatif $P(X \\ge ${k})$:</span>
+                            <div class="text-sm font-bold text-emerald-400 mt-1">${probGreaterEq.toFixed(6)} (${(probGreaterEq * 100).toFixed(4)}%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2">
+                    <div class="font-bold text-cyan-300">2. Parameter Statistik Distribusi:</div>
+                    <div class="flex justify-between border-b border-slate-800 py-1">
+                        <span class="text-slate-400">Rata-rata / Nilai Harapan ($\\mu = n \\cdot p$):</span>
+                        <span class="font-bold text-amber-400">${mean.toFixed(4)}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-800 py-1">
+                        <span class="text-slate-400">Varians ($\\sigma^2 = n \\cdot p \\cdot q$):</span>
+                        <span class="font-bold text-emerald-400">${varB.toFixed(4)}</span>
+                    </div>
+                    <div class="flex justify-between py-1">
+                        <span class="text-slate-400">Simpangan Baku ($\\sigma = \\sqrt{\\sigma^2}$):</span>
+                        <span class="font-bold text-emerald-400">${sd.toFixed(4)}</span>
+                    </div>
+                </div>
+            `;
+
+            if (window.renderMathInElement) renderMathInElement(out);
+        }
+
+        // User Profile Edit Modal Logic
+        function openModalEditUser() {
+            playSfx('click');
+            document.getElementById('modalInputName').value = state.studentName;
+            document.getElementById('modalInputClass').value = state.studentClass;
+            document.getElementById('modalEditUser').classList.remove('hidden');
+        }
+
+        function closeModalEditUser() {
+            playSfx('click');
+            document.getElementById('modalEditUser').classList.add('hidden');
+        }
+
+        function saveModalEditUser() {
+            playSfx('click');
+            const name = document.getElementById('modalInputName').value.trim();
+            const cls = document.getElementById('modalInputClass').value.trim();
+            if (name) state.studentName = name;
+            if (cls) state.studentClass = cls;
+
+            document.getElementById('headerStudentName').innerText = state.studentName;
+            document.getElementById('headerStudentClass').innerText = state.studentClass;
+            document.getElementById('summaryStudentName').innerText = state.studentName;
+            document.getElementById('summaryStudentClass').innerText = `Kelas ${state.studentClass}`;
+
+            closeModalEditUser();
+        }
+
+        function saveStudentReflection(e) {
+            e.preventDefault();
+            playSfx('click');
+            document.getElementById('reflectionSavedAlert').classList.remove('hidden');
+            const btn = document.getElementById('btnSubmitRef');
+            btn.innerText = "✅ Refleksi Tersimpan";
+            btn.disabled = true;
+            btn.className = "bg-slate-700 text-slate-400 font-bold py-3 px-6 rounded-xl text-xs cursor-not-allowed";
+        }
+
+        // Initialization On Load
+        window.onload = function() {
+            initLabChart();
+            updateLabSim();
+            renderGameQuestion();
+        };
+    </script>
+</body>
+</html>
